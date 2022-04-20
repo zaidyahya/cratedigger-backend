@@ -76,11 +76,13 @@ def callback():
         session['refresh_token'] = response_data['refresh_token']
         #print(response_data['access_token'])
 
-    return redirect(url_for('hello'))
+    return redirect(url_for('home'))
 
 @app.route("/user")
 def user():
-    return f"<p>Hello, {session['user']}"
+    return redirect(url_for('home'))
+
+    # return f"<p>Hello, {session['user']}"
 
 @app.route("/new")
 def new():
