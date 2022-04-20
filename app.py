@@ -104,4 +104,4 @@ def new():
 def logout():
     session.pop('access_token', None)
     session.pop('refresh_token', None)
-    return "<p>Bye..</p>"
+    return redirect(url_for('home'))
