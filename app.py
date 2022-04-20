@@ -1,4 +1,4 @@
-from flask import Flask, session, request, redirect
+from flask import Flask, session, request, redirect, render_template, url_for
 from datetime import timedelta
 from urllib.parse import quote
 import requests
@@ -33,8 +33,8 @@ def before_request():
     session.permanent = True
 
 @app.route("/")
-def hello_world():
-    return "<p>Hello World!</p>"
+def home():
+    return render_template('index.html')
 
     # if 'user' in session:
     #     return redirect('/user')
@@ -76,7 +76,7 @@ def callback():
         session['refresh_token'] = response_data['refresh_token']
         #print(response_data['access_token'])
 
-    return redirect('/new')
+    return redirect(url_for('hello'))
 
 @app.route("/user")
 def user():
