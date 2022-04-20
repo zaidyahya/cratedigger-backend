@@ -100,7 +100,7 @@ def user():
 def new():
     return "<p>New session inputted..</p>"
 
-@app.route("/logout")
+@app.route("/api/logout")
 def logout():
     session.pop('access_token', None)
     session.pop('refresh_token', None)
