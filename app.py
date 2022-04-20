@@ -16,8 +16,8 @@ CLIENT_SECRET = '9eea43a5790342daab2f152240cd1205'
 
 # Server-side Parameters
 SCOPE = 'user-read-private user-read-email'
-REDIRECT_URI = 'https://cratedigger-klaas.herokuapp.com/api/callback'
-# REDIRECT_URI = 'http://localhost:5000/api/callback'
+# REDIRECT_URI = 'https://cratedigger-klaas.herokuapp.com/api/callback'
+REDIRECT_URI = 'http://localhost:5000/api/callback'
 STATE = ''
 
 auth_query_parameters = {
@@ -32,15 +32,16 @@ auth_query_parameters = {
 def before_request():
     session.permanent = True
 
-@app.route("/")
-def home():
+@app.route('/', defaults={'path': ''})
+@app.route('/<path:path>')
+def catch_all(path):
+    # return 'You want path: %s' % path
     return render_template('index.html')
 
-    # if 'user' in session:
-    #     return redirect('/user')
-    # else:
-    #     session['user'] = 'Zaid'
-    #     return redirect('/new')
+
+@app.route("/me")
+def home():
+    return render_template('index.html')
 
 @app.route('/api/authorize')
 def authorize():
@@ -50,6 +51,7 @@ def authorize():
     auth_url = "{}/?{}".format(SPOTIFY_AUTH_URL, url_args)
     print(auth_url)
     return redirect(auth_url)
+
 
 @app.route('/api/callback')
 def callback():
@@ -76,7 +78,7 @@ def callback():
         session['refresh_token'] = response_data['refresh_token']
         #print(response_data['access_token'])
 
-    return redirect(url_for('home'))
+    return redirect(url_for('catch_all'))
 
 @app.route('/api/is-authenticated')
 def is_authorized():
@@ -90,18 +92,13 @@ def is_authorized():
         print('No access token')
         return { 'authenticated': False }
 
-@app.route("/user")
-def user():
-    return redirect(url_for('home'))
-
-    # return f"<p>Hello, {session['user']}"
-
 @app.route("/new")
 def new():
+    print('In New')
     return "<p>New session inputted..</p>"
 
 @app.route("/api/logout", methods=['POST'])
 def logout():
     session.pop('access_token', None)
     session.pop('refresh_token', None)
-    return redirect(url_for('home'))
+    return redirect(url_for('catch_all'))
