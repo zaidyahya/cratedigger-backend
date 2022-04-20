@@ -4,8 +4,12 @@ from datetime import timedelta
 app = Flask(__name__)
 app.config.from_mapping(
     SECRET_KEY='dev',
-    #PERMANENT_SESSION_LIFETIME=timedelta(days=7)
+    PERMANENT_SESSION_LIFETIME=timedelta(days=7)
 )
+
+@app.before_request
+def before_request():
+    session.permanent = True
 
 @app.route("/")
 def hello_world():
@@ -27,4 +31,3 @@ def new():
 def logout():
     session.pop('user', None)
     return "<p>Bye..</p>"
-    #return redirect('/')
