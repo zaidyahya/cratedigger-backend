@@ -78,6 +78,18 @@ def callback():
 
     return redirect(url_for('home'))
 
+@app.route('/api/is-authenticated')
+def is_authorized():
+    if 'access_token' in session:
+        print('Access Token exists')
+        print(session['access_token'])
+        print(session['refresh_token'])
+
+        return { 'authenticated': True }
+    else:
+        print('No access token')
+        return { 'authenticated': False }
+
 @app.route("/user")
 def user():
     return redirect(url_for('home'))
