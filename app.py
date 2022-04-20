@@ -102,5 +102,6 @@ def new():
 
 @app.route("/logout")
 def logout():
-    session.pop('user', None)
+    session.pop('access_token', None)
+    session.pop('refresh_token', None)
     return "<p>Bye..</p>"
