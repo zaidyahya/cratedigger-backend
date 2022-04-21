@@ -38,11 +38,6 @@ def catch_all(path):
     return render_template('index.html')
 
 
-@app.route("/me")
-def home():
-    return render_template('index.html')
-
-
 @app.route('/api/authorize')
 def authorize():
     SPOTIFY_AUTH_URL = "https://accounts.spotify.com/authorize"
@@ -80,7 +75,6 @@ def callback():
 
         return redirect(url_for('catch_all'))
         # return redirect('http://localhost:3000/login')
-
 
 
 @app.route('/api/is-authenticated')
@@ -184,12 +178,6 @@ def logout():
     session.pop('access_token', None)
     session.pop('refresh_token', None)
     return redirect(url_for('catch_all'))
-
-
-@app.route("/new")
-def new():
-    print('In New')
-    return "<p>New session inputted..</p>"
 
 
 # Helper function required to filter on the month inputted by the user. 
