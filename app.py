@@ -78,7 +78,9 @@ def callback():
         session['refresh_token'] = response_data['refresh_token']
         #print(response_data['access_token'])
 
-    return redirect(url_for('catch_all'))
+        # return redirect(url_for('catch_all'))
+        return redirect('http://localhost:3000/login')
+
 
 
 @app.route('/api/is-authenticated')
