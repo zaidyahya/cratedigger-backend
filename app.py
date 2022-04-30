@@ -11,13 +11,18 @@ app.config.from_mapping(
 )
 
 # Client Keys
+# PROD
 CLIENT_ID = '0e0d3a9d83594e7fb76911279b6e2aa3'
 CLIENT_SECRET = '9eea43a5790342daab2f152240cd1205'
+REDIRECT_URI = 'https://cratedigger-klaas.herokuapp.com/api/callback'
+
+# DEV
+# CLIENT_ID = 'ec8841c1d4c54d89869e948aca6e0c3f'
+# CLIENT_SECRET = '7c1211b0c15c491ea13cb4d03176ceb0'
+# REDIRECT_URI = 'http://localhost:5000/api/callback'
 
 # Server-side Parameters
-SCOPE = 'user-read-private user-read-email'
-REDIRECT_URI = 'https://cratedigger-klaas.herokuapp.com/api/callback'
-# REDIRECT_URI = 'http://localhost:5000/api/callback'
+SCOPE = 'user-read-private'
 STATE = ''
 
 auth_query_parameters = {
@@ -74,7 +79,7 @@ def callback():
         #print(response_data['access_token'])
 
     return redirect(url_for('catch_all'))
-    # return redirect('http://localhost:3000/login')
+    #return redirect('http://localhost:3000/login')
 
 
 @app.route('/api/is-authenticated')
