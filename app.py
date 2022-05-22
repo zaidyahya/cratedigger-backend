@@ -93,7 +93,7 @@ def callback():
 def is_authorized():
     if 'access_token' in session:
         print('Access Token exists')
-        #print(session['access_token'])
+        print(session['access_token'])
         #print(session['refresh_token'])
 
         return { 'authenticated': True }
@@ -146,7 +146,7 @@ def user():
 @app.route('/api/search', methods=['GET'])
 def search():
     args = request.args
-    #print(f'Search.. {args}')
+    # print(f'Search.. {args}')
     artist_name = args['artist_name']
     artist_id = args['artist_id']
     start_date = args['start_date']
@@ -241,14 +241,17 @@ def _filter_on_months(start_year, end_year, start_month, end_month, track):
     #print('Filtering', start_year, end_year, start_month, end_month)
     date_components = track['album']['release_date'].split('-') # 0 -> year, 1 -> month, 2 -> day [depending on release_date_precision]
     track_year = date_components[0]
-    track_month = date_components[1]
 
-    if int(track_year) >= int(start_year) and int(track_year) <= int(end_year):
-        if int(track_month) >= int(start_month) and int(track_month) <= int(end_month):
-            #print(f"Comparison of {track['album']['release_date']} returned {True}")
+    if len(date_components) == 1: # Only year exists
+        if int(track_year) >= int(start_year) and int(track_year) <= int(end_year):
             return True
+    else:
+        track_month = date_components[1]
+        if int(track_year) >= int(start_year) and int(track_year) <= int(end_year):
+            if int(track_month) >= int(start_month) and int(track_month) <= int(end_month):
+                #print(f"Comparison of {track['album']['release_date']} returned {True}")
+                return True
 
-    #print(f"Comparison of {track['album']['release_date']} returned {False}")
 
 def _insert_modify_user(userId, userName, userCountry):
     user = users.find_one({ 'spotifyId': userId })
